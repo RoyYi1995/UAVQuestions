@@ -23,8 +23,10 @@ object UavMod : IUavMod {
                 return
             }
         }
-        //如果之前已经故障，则该信息故障, 并且检测开头是否为4字符，后续是否为7字符
-        if (error||!CheckUtil.checkSizeError(msgArray)) {
+        //如果之前已经故障，则该信息故障
+        //检测开头是否为4字符，后续是否为7字符
+        //检测id是否符合字母+数字的组合
+        if (error||!CheckUtil.checkSizeError(msgArray)||CheckUtil.checkIdFormat(msgArray[0])) {
             uavMsg.error = true
             uavMsgArray.add(uavMsg)
             return

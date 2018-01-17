@@ -8,14 +8,14 @@ import java.util.*
 
 class MainView : IMainView {
 
+
     private val uavPre: IUavPre = UavPre(this)
     private val scanner = Scanner(System.`in`)
 
     /**
-     * 输入无人机信息
+     * 输入无人机信息文本地址
      */
-    override fun inputUavInfo() {
-        //输入无人机信息文本地址
+    override fun inputUavInfoWithPath() {
         println("Please input the UavMsg file path:")
         try {
             val file = File(scanner.nextLine())
@@ -28,14 +28,19 @@ class MainView : IMainView {
             println("Please input right file path!!!")
             inputUavInfo()
         }
-
-//        //逐行输入无人机信息内容
-//        var msg = scanner.nextLine()
-//        //以"end"为无人机信息输入结束
-//        while (msg != "end") {
-//            uavPre.submitDate(msg)
-//            msg = scanner.nextLine()
-//        }
+    }
+    /**
+     * 输入无人机信息
+     */
+    override fun inputUavInfo() {
+        println("Please input uav info:")
+        //逐行输入无人机信息内容
+        var msg = scanner.nextLine()
+        //以"end"为无人机信息输入结束
+        while (msg != "end") {
+            uavPre.submitDate(msg)
+            msg = scanner.nextLine()
+        }
     }
 
     /**

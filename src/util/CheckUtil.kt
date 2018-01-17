@@ -1,6 +1,7 @@
 package util
 
 import bean.UavMsg
+import java.util.regex.Pattern
 
 object CheckUtil {
     private val MAX_LENGTH = 7
@@ -32,5 +33,15 @@ object CheckUtil {
      */
     fun checkUavId(lastUavId:String,nowUavId:String):Boolean{
         return lastUavId == nowUavId
+    }
+
+    /**
+     * 判断id是否为数字或字母
+     */
+    fun checkIdFormat(uavId:String):Boolean{
+        val regEx="^[A-Za-z0-9]+$"
+        val p = Pattern.compile(regEx)
+        return  !p.matcher(uavId).matches()
+
     }
 }
