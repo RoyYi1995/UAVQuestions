@@ -38,4 +38,4 @@
 
 #### 两种测试方法
 
-​	Start.kt文件中有mView.inputUavInfo()与mView.inputUavInfoWithPath()方法分别为直接输入测试和输入日志文件路径（测试用例日志文件路径: src/planeInfo.txt）测试
+​	Start.kt文件中有mView.inputUavInfo()与mView.inputUavInfoWithPath()方法分别为直接输入测试("end"为内容输入完成标志)和输入日志文件路径（测试用例日志文件路径: src/planeInfo.txt）测试(程序退出指令为"exit")
