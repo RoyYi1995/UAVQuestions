@@ -12,11 +12,20 @@ object CheckUtil {
      * 判断信息长度
      */
     fun checkSizeError(msgArray: List<String>): Boolean {
-        return if (first && msgArray.size == FIRST_LENGTH) {
-            //是否是第一道msg，并且长度是否合适
+        var error = true
+        if (first){
+            //如果是第一条，判断长度是否是4
+            if (msgArray.size == FIRST_LENGTH){
+                error = false
+            }
             first = false
-            return true
-        } else msgArray.size == MAX_LENGTH
+        }else{
+            //不是第一条，判断长度是否是7
+            if (msgArray.size == MAX_LENGTH){
+                error = false
+            }
+        }
+        return error
     }
 
     /**
@@ -31,17 +40,26 @@ object CheckUtil {
     /**
      * 判断id是否一致
      */
-    fun checkUavId(lastUavId:String,nowUavId:String):Boolean{
-        return lastUavId == nowUavId
+    fun checkUavIdError(lastUavId: ArrayList<UavMsg>, nowUavId: String): Boolean {
+        var error = true
+        if (!first){
+            //不是第一条，判断是否和上一条相同
+            if (lastUavId.last().id == nowUavId){
+                error = false
+            }
+        }else{
+            error = false
+        }
+        return error
     }
 
     /**
      * 判断id是否为数字或字母
      */
-    fun checkIdFormat(uavId:String):Boolean{
-        val regEx="^[A-Za-z0-9]+$"
+    fun checkIdFormatError(uavId: String): Boolean {
+        val regEx = "^[A-Za-z0-9]+$"
         val p = Pattern.compile(regEx)
-        return  !p.matcher(uavId).matches()
+        return !p.matcher(uavId).matches()
 
     }
 }

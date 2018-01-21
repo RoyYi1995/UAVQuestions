@@ -2,7 +2,6 @@ package model
 
 import bean.UavMsg
 import util.CheckUtil
-import kotlin.Exception
 
 object UavMod : IUavMod {
     private var uavMsgArray = arrayListOf<UavMsg>()
@@ -12,21 +11,15 @@ object UavMod : IUavMod {
      * @param msg 信息
      */
     override fun addUavInfo(msg: String) {
-        val msgArray = msg.split(" ")
+        val msgArray = msg.trim().split(" ")
         val uavMsg = UavMsg()
 
-        //判断每次输入id是否相同，注意第一条信息过来时uavMsgArray.last()为null
-        if (!CheckUtil.first){
-            if (!CheckUtil.checkUavId(uavMsgArray.last().id,msgArray[0])){
-                uavMsg.error = true
-                uavMsgArray.add(uavMsg)
-                return
-            }
-        }
         //如果之前已经故障，则该信息故障
+        //判断每次输入id是否相同
         //检测开头是否为4字符，后续是否为7字符
         //检测id是否符合字母+数字的组合
-        if (error||!CheckUtil.checkSizeError(msgArray)||CheckUtil.checkIdFormat(msgArray[0])) {
+        if (error || CheckUtil.checkUavIdError(uavMsgArray, msgArray[0])
+                || CheckUtil.checkSizeError(msgArray) || CheckUtil.checkIdFormatError(msgArray[0])) {
             uavMsg.error = true
             uavMsgArray.add(uavMsg)
             return
@@ -44,7 +37,7 @@ object UavMod : IUavMod {
             uavMsg._x = msgArray[4].toInt()
             uavMsg._y = msgArray[5].toInt()
             uavMsg._z = msgArray[6].toInt()
-            if (!CheckUtil.checkCoordinate(uavMsgArray.last(),uavMsg)){
+            if (!CheckUtil.checkCoordinate(uavMsgArray.last(), uavMsg)) {
                 error = true
             }
         } catch (e: Exception) {
@@ -60,23 +53,23 @@ object UavMod : IUavMod {
      * @param index 指定ID
      * @param listener 信息查询回调接口
      */
-    override fun getIndexMsg(index: Int,listener: onInfoHandleFinishListener) {
-       try {
+    override fun getIndexMsg(index: Int, listener: OnInfoHandleFinishListener) {
+        try {
             val uavMsg = uavMsgArray[index]
-            if (uavMsg.error){
+            if (uavMsg.error) {
                 listener.onErrorMsg(index)
-            }else{
-                listener.onSuccessMsg(uavMsg,index)
+            } else {
+                listener.onSuccessMsg(uavMsg, index)
             }
         } catch (e: Exception) {
-           listener.onNoFindMsg(index)
+            listener.onNoFindMsg(index)
         }
 
     }
 
-    interface onInfoHandleFinishListener{
+    interface OnInfoHandleFinishListener {
         fun onSuccessMsg(uavMsg: UavMsg, index: Int)
-        fun onErrorMsg(index:Int)
+        fun onErrorMsg(index: Int)
         fun onNoFindMsg(index: Int)
     }
 

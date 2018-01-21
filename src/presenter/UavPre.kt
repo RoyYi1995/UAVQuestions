@@ -4,7 +4,7 @@ import bean.UavMsg
 import model.UavMod
 import view.IMainView
 
-class UavPre(mainView: IMainView) : IUavPre,UavMod.onInfoHandleFinishListener {
+class UavPre(mainView: IMainView) : IUavPre,UavMod.OnInfoHandleFinishListener {
     private val mView: IMainView = mainView
 
     /**
